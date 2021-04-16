@@ -5,13 +5,13 @@ import './home.scss'
 
 const Home=()=>{
     return(
-        <div className="outerMostCOntainer">
+        <div>
             <Container>
                 <Row>
                     <Col sm={8}>LIVE MONITORING</Col>
-                    <Col sm={4}>15 April 2021 21:15:45</Col>
+                    <Col sm={4} className="liveTime">15 April 2021 21:15:45</Col>
                 </Row>
-                <Row>
+                <Row className="liveWindowRow">
                     <Col sm={6}>
                         <div className="liveWindow">
                             <img className="liveContent" src={Image} alt="sample" />

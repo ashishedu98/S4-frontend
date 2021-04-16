@@ -5,7 +5,7 @@ import HomePage from './components/home/home.js'
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" >
       <BrowserRouter>
         <NavigationBar/>
         <Route path="/home" component={HomePage} exact />
