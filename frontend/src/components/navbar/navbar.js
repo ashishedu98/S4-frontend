@@ -14,7 +14,7 @@ const NavigationBar =()=>{
                 <Nav.Link><Link to="/Recognition">Recognition</Link></Nav.Link>
                 <Nav.Link><Link to="/Records">Records</Link></Nav.Link>
                 <Nav.Link><Link to="/Profile">Profile</Link></Nav.Link>
-                <Nav.Link><Link to="/Capture">Capture</Link></Nav.Link>
+                <Nav.Link><Link to="/ImageUpload">Capture</Link></Nav.Link>
                 </Nav>
             </Navbar.Collapse>
             <Form inline>

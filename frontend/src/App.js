@@ -5,7 +5,7 @@ import HomePage from './components/home/home.js'
 import RecognitionPage from './components/Recognition/Recognition.js'
 import RecordsPage from './components/Records/Records.js'
 import ProfilePage from './components/Profile/Profile.js'
-import CapturePage from './components/Capture/Capture.jsx'
+import ImageUpload from './components/ImageUpload/ImageUpload.js'
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <Route path="/Recognition" component={RecognitionPage} exact />
         <Route path="/Records" component={RecordsPage} exact />
         <Route path="/Profile" component={ProfilePage} exact />
-        <Route path="/Capture" component={CapturePage} exact />
+        <Route path="/ImageUpload" component={ImageUpload} exact />
         </BrowserRouter>
     </div>
   );

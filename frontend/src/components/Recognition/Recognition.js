@@ -52,7 +52,7 @@ const handleShow=()=>setShow(true);
 const actionsFormatter=()=>{
   return ( 
     < div >
-    <Button variant="dark">View Profile</Button>
+    <Button variant="dark">View Details</Button>
   </div> 
   );
  };
