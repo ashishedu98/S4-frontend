@@ -3,11 +3,13 @@
         // background-color: aquamarine;
         width:100%;
         padding: inherit;
+    
         .row{
             margin-top: 3vh;
             .col-sm-4{
                 &.liveTime{
                     text-align: right;
+                    margin-top: auto;
                 }
             }
             &.liveWindowRow{
