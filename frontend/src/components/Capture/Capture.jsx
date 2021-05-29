@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import './Capture.scss'
 import Webcam from "react-webcam";
-import { Container,Button, Row,Col,Modal,Figure } from 'react-bootstrap';
+import { Container,Button, Row,Col,Modal,Figure,Form } from 'react-bootstrap';
 import Image1 from '../../assets/images/criminaltest.jpg'
 import BootstrapTable from 'react-bootstrap-table-next';
 import { Link } from "react-router-dom"; 
@@ -148,7 +148,7 @@ const webcamRef = React.useRef(null);
 
   return (
     <div>
-      <Container fluid>
+      <Container >
           <Row >
             <Col xs={4} >
                 <div className="webCam">
@@ -179,6 +179,27 @@ const webcamRef = React.useRef(null);
                   </div>
               </Col>
             </Row>
+            <Row>
+              <Col xs={12}>
+                  <div className="criminalCamContent">  
+                         <Form>
+                          <Form.Group controlId="criminalLoc">
+                            <Form.Label>Criminal Location</Form.Label>
+                            <Form.Control type="text" placeholder="Enter Location" />
+                            <Form.Text className="text-muted">
+                              Enter Location Carefully
+                            </Form.Text>
+                          </Form.Group>
+                          <Form.Group controlId="criminalImg">
+                            <Form.Label>Image</Form.Label>
+                            <Form.Control type="text"/>
+                          </Form.Group>
+                          <Button variant="primary" type="submit">Submit</Button>
+                        </Form>
+                  </div>
+              </Col>
+            </Row>
+
             <Row>
               <Col>
                   <BootstrapTable bootstrap4  keyField='id' data={ products } columns={ columns } variant={"dark"} bordered={true} hover={true} striped={true}  rowEvents={onRowClick} />

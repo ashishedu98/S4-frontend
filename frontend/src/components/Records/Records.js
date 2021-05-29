@@ -4,14 +4,14 @@ import './Records.scss'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { MDBDataTable } from 'mdbreact';
-import { Link } from "react-router-dom"; 
+
 
 
 
 const actionsFormatter=(cell, row, rowIndex, formatExtraData)=>{
   return ( 
     < div >
-    <Link to="/Profile" className="btn btn-primary">View</Link>
+    {/* <Link to="/Profile" className="btn btn-primary">View</Link> */}
   </div> 
   );
  };
