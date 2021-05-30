@@ -8,8 +8,7 @@ import Image from '../../assets/images/criminaltest.jpg'
 import { MDBBadge, MDBContainer } from "mdbreact";
 
 
-const Profile = (props) => {
-    console.log(props.location.aboutProps)
+const Profile = () => {
     return (
         <div className="window">
             <Container >

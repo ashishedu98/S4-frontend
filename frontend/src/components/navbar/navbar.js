@@ -17,10 +17,7 @@ const NavigationBar =()=>{
                 <Nav.Link><Link to="/ImageUpload">Capture</Link></Nav.Link>
                 </Nav>
             </Navbar.Collapse>
-            <Form inline>
-            <FormControl type="text" placeholder="Search" className=" mr-sm-2" />
-            <Button type="submit" variant="info">Submit</Button>
-            </Form>
+           
             </Navbar>
            
         </div>

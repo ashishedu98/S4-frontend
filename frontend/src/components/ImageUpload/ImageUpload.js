@@ -1,5 +1,50 @@
 import React, {Component} from 'react';
 import {storage} from '../../firebase';
+import { Container,Row,Col,Button,Form } from 'react-bootstrap';
+import './ImageUpload.scss'
+import {Modal,Figure} from 'react-bootstrap'
+import MaterialTable from 'material-table'
+import { forwardRef } from 'react';
+import AddBox from '@material-ui/icons/AddBox';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import Check from '@material-ui/icons/Check';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import Clear from '@material-ui/icons/Clear';
+import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Edit from '@material-ui/icons/Edit';
+import FilterList from '@material-ui/icons/FilterList';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
+import Remove from '@material-ui/icons/Remove';
+import SaveAlt from '@material-ui/icons/SaveAlt';
+import Search from '@material-ui/icons/Search';
+import ViewColumn from '@material-ui/icons/ViewColumn';
+import PersonOutlineTwoToneIcon from '@material-ui/icons/PersonOutlineTwoTone';
+import {Credentials} from '../../credentials.js'
+import axios from 'axios'
+
+const tableIcons = {
+  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+  DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+  PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+  };
+
+
 
 class ImageUpload extends Component {
   constructor(props) {
@@ -7,13 +52,39 @@ class ImageUpload extends Component {
     this.state = {
       image: null,
       url: '',
-      progress: 0
+      progress: 0,
+      location:'',
+      data:[],
+      resultImg:''
     }
     this.handleChange = this
       .handleChange
       .bind(this);
       this.handleUpload = this.handleUpload.bind(this);
+      this.handleLocation=this.handleLocation.bind(this);
   }
+  handleLocation=(evt)=>{
+    const{location}=this.state;
+    this.setState({location:evt.target.value})
+  }
+handleSubmit=()=>{
+  const{url,location}=this.state;
+  const request={
+    "location":location,
+    "image":url
+  }
+    axios.post(`http://4d55a4f4d964.ngrok.io/liveRecognition`,request)
+      .then((res)=>{
+        console.log(res);
+      })
+
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components        
+      
+  // console.log(url);
+  // console.log(location);
+}
   handleChange = e => {
     if (e.target.files[0]) {
       const image = e.target.files[0];
@@ -41,22 +112,112 @@ class ImageUpload extends Component {
         })
     });
   }
+
   render() {
+
     const style = {
       height: '100vh',
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center'
+      alignItems: 'centre',
+      justifyContent: 'centre',
+      margintop:'20vh'
     };
     return (
-      <div style={style}>
-      <progress value={this.state.progress} max="100"/>
-      <br/>
-        <input type="file" onChange={this.handleChange}/>
-        <button onClick={this.handleUpload}>Upload</button>
-        <br/>
-        <img src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400"/>
+      <div>
+        <Container>
+          {/* <Row className="uploadImageROW">
+            <Col sm={12}>
+
+                  <div className="uploadImage">
+                  <p>
+                  <input type="file" className="btn btn-file" onChange={this.handleChange}/>
+                  </p>
+                  <p>
+                  <Button variant="secondary" onClick={this.handleUpload}>Upload</Button> 
+                  </p>
+                  <progress  value={this.state.progress} max="100"/>
+                  </div>
+              </Col>
+              </Row> */}
+              <Row className="ImageROW" >
+                <Col sm={6} >
+                                  
+                <div className="selectedImage">
+                    <img src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400"/>
+                    </div>
+                </Col>
+                <Col sm={6}>
+                    <div className="loadedImage">
+                    <img src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400"/>
+                    </div>
+                </Col>  
+              </Row>  
+              <Row className="finalDetails">
+                <Col sm={6}>
+                <div className="uploadImage">
+                  <p>
+                  <input type="file" className="btn btn-file" onChange={this.handleChange}/>
+                  </p>
+                  <p>
+                  <Button variant="secondary" onClick={this.handleUpload}>Upload</Button> 
+                  </p>
+                  <progress  value={this.state.progress} max="100"/>
+                  </div>
+                      <div className="inputImgDetails">
+                      <Form>
+                            <Form.Group className="mb-3" controlId="formLocation">
+                              <Form.Label>Input Location:</Form.Label>
+                              <Form.Control type="text" placeholder="Enter location" onChange={this.handleLocation} />
+                              <Form.Text className="text-muted">
+                                Enter Location Carefully
+                              </Form.Text>
+                              <Form.Label>Image URL:</Form.Label>
+                              <Form.Control controlId="imgId" type="text"  readOnly value={this.state.url} />
+                        </Form.Group>
+                        </Form>
+                        <Button variant="secondary" onClick={this.handleSubmit}>Submit</Button>
+                      </div>
+                </Col>
+                </Row>
+                  <Col sm={12}>
+                      <div className="outputImgtable">
+                            <MaterialTable
+                                      icons={tableIcons}
+                                      title="Suspect Recognition"
+                                      columns={[
+                                        { title: 'Criminal Id', field: 'criminalId' },
+                                        { title: 'Criminal Name', field: 'criminalName' },
+                                        { title: 'ThreatLevel', field: 'threatLevel'  },
+                                        { title: 'Location', field: 'location' }
+                                        
+                                      ]}
+                                      data={[
+                                        { criminalId: '1', criminalName: 'Barren', threatLevel: '4', location: 'Bangalore',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
+                                        { criminalId: '2', criminalName: 'Lake', threatLevel: '3', location: 'Mumbai',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
+                                        { criminalId: '3', criminalName: 'Tim', threatLevel: '5', location: 'UP',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
+                                        { criminalId: '4', criminalName: 'Montana', threatLevel: '2', location: 'Kerela',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
+                                        { criminalId: '5', criminalName: 'Max Cady', threatLevel: '1', location: 'Goa',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' }
+                                      ]}
+                                      // actions={[
+                                      //   {
+                                      //     icon: PersonOutlineTwoToneIcon,
+                                      //     tooltip: 'View Profile',
+                                      //     onClick: (event, rowData) => {
+                                      //       console.log(rowData)  
+                                      //       setModalInfo(rowData)
+                                      //       console.log(rowData.criminalId)  
+                                      //       toggleTrueFalse()       
+                                      // }
+                                      //   },
+                                      // ]}
+                                      options={{
+                                        actionsColumnIndex: -1
+                                      }}
+                           />
+                      </div>
+                </Col>  
+        </Container>
       </div>
     )
   }
