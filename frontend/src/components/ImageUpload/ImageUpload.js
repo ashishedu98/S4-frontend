@@ -75,7 +75,13 @@ handleSubmit=()=>{
   }
     axios.post(`http://4d55a4f4d964.ngrok.io/liveRecognition`,request)
       .then((res)=>{
-        console.log(res);
+        console.log(res)
+          console.log(res.data.details);
+          console.log(res.data.lastpic);
+        //  console.log(res[0]["lastpic"])
+         this.setState({resultImg:res.data.lastpic})
+         this.setState({data:[res.data.details]})
+        // console.log(this.state.data[0]["details"])
       })
 
         // Note: it's important to handle errors here
@@ -140,7 +146,7 @@ handleSubmit=()=>{
                   </div>
               </Col>
               </Row> */}
-              <Row className="ImageROW" >
+              <Row className="ImageROW" style={{marginTop:"2vh"}} >
                 <Col sm={6} >
                                   
                 <div className="selectedImage">
@@ -149,7 +155,7 @@ handleSubmit=()=>{
                 </Col>
                 <Col sm={6}>
                     <div className="loadedImage">
-                    <img src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400"/>
+                    <img src={this.state.resultImg || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400"/>
                     </div>
                 </Col>  
               </Row>  
@@ -179,26 +185,24 @@ handleSubmit=()=>{
                         <Button variant="secondary" onClick={this.handleSubmit}>Submit</Button>
                       </div>
                 </Col>
-                </Row>
+                </Row >
+                <Row className="outputImgRow" style={{marginTop:"3vh"}}>
                   <Col sm={12}>
                       <div className="outputImgtable">
                             <MaterialTable
                                       icons={tableIcons}
                                       title="Suspect Recognition"
                                       columns={[
-                                        { title: 'Criminal Id', field: 'criminalId' },
-                                        { title: 'Criminal Name', field: 'criminalName' },
-                                        { title: 'ThreatLevel', field: 'threatLevel'  },
-                                        { title: 'Location', field: 'location' }
+                                        { title: 'Criminal Id', field: 'sid' },
+                                        { title: 'Criminal Name', field: 'name' },
+                                        { title: 'ThreatLevel', field: 'threat'  },
+                                        { title: 'Location', field: 'location' },
+                                        { title: 'Time', field: 'last' },
+                                        // { title: 'Cases', field: 'cases' }
+
                                         
                                       ]}
-                                      data={[
-                                        { criminalId: '1', criminalName: 'Barren', threatLevel: '4', location: 'Bangalore',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
-                                        { criminalId: '2', criminalName: 'Lake', threatLevel: '3', location: 'Mumbai',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
-                                        { criminalId: '3', criminalName: 'Tim', threatLevel: '5', location: 'UP',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
-                                        { criminalId: '4', criminalName: 'Montana', threatLevel: '2', location: 'Kerela',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
-                                        { criminalId: '5', criminalName: 'Max Cady', threatLevel: '1', location: 'Goa',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' }
-                                      ]}
+                                      data={this.state.data}
                                       // actions={[
                                       //   {
                                       //     icon: PersonOutlineTwoToneIcon,
@@ -217,6 +221,7 @@ handleSubmit=()=>{
                            />
                       </div>
                 </Col>  
+              </Row>
         </Container>
       </div>
     )

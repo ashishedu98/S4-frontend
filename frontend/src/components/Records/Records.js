@@ -23,6 +23,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import PersonOutlineTwoToneIcon from '@material-ui/icons/PersonOutlineTwoTone';
+import axios from 'axios'
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -48,9 +49,22 @@ const tableIcons = {
     const [modalInfo,setModalInfo]=useState([]);
     const[showModal,setShowModal]=useState(false);
     const[show,setShow]=useState(false);
+    const[data,setData]=useState([])
     const handleClose=()=>setShow(false);
     const handleShow=()=>setShow(true);
     
+
+    useEffect(()=>{
+      axios.get('http://4d55a4f4d964.ngrok.io/all_recognitions')
+      .then((response) => {
+        setData(response.data)
+        console.log(this.state.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    },[])
+
     
     const toggleTrueFalse=()=>{
     
@@ -58,7 +72,7 @@ const tableIcons = {
     };
     
     const ModalContent=()=>{
-     
+   
       return(
         <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -69,16 +83,17 @@ const tableIcons = {
           <ul>
             <ol>
             <Figure.Image
-                width={171}
-                height={180}
+                width={380}
+                height={480}
                 alt="profile pics"
-                src={modalInfo.profileLink}
+                src={modalInfo.detect_pic}
              />
             </ol> 
-            <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Criminal ID:{modalInfo.criminalId}</ol>
+            <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Criminal ID:{modalInfo.sid}</ol>
             <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Criminal Name:{modalInfo.criminalName}</ol>
             <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Threat Level:{modalInfo.threatLevel}</ol>
-            <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Location:{modalInfo.location}</ol>
+            <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Location:{modalInfo.detect_location}</ol>
+            <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Time:{modalInfo.detect_time}</ol>
          
           </ul>
         </Modal.Body>
@@ -93,28 +108,31 @@ const tableIcons = {
     
     
         return(
-          <div>
-            <Container>
+          <div style={{height:"100%",width:"100%"}}>
+            <Container className="records" fluid>
               <Row>
-                <Col sm={12}>
-                  <div className="mtable">
-                        <MaterialTable
+                <Col sm={12} style={{padding:"4vh"}}>
+                  <div className="mtable" style={{overflow:"auto"}}>
+                        <MaterialTable 
                         icons={tableIcons}
                         title="Criminal Records"
                         columns={[
-                          { title: 'Criminal Id', field: 'criminalId' },
-                          { title: 'Criminal Name', field: 'criminalName' },
-                          { title: 'ThreatLevel', field: 'threatLevel'  },
-                          { title: 'Location', field: 'location' }
+                          { title: 'Criminal Id', field: 'sid' },
+                           { title: 'Criminal Name', field: 'names' },
+                           { title: 'ThreatLevel', field: 'threats'  },
+                          { title: 'Location', field: 'detect_location'},
+                          {title:'Time',field:'detect_time'}
+                          
                           
                         ]}
-                        data={[
-                          { criminalId: '1', criminalName: 'Barren', threatLevel: '4', location: 'Bangalore',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
-                          { criminalId: '2', criminalName: 'Lake', threatLevel: '3', location: 'Mumbai',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
-                          { criminalId: '3', criminalName: 'Tim', threatLevel: '5', location: 'UP',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
-                          { criminalId: '4', criminalName: 'Montana', threatLevel: '2', location: 'Kerela',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
-                          { criminalId: '5', criminalName: 'Max Cady', threatLevel: '1', location: 'Goa',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' }
-                        ]}
+                        data={data}
+                        // data={[
+                        //   { criminalId: '1', criminalName: 'Barren', threatLevel: '4', location: 'Bangalore',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
+                        //   { criminalId: '2', criminalName: 'Lake', threatLevel: '3', location: 'Mumbai',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
+                        //   { criminalId: '3', criminalName: 'Tim', threatLevel: '5', location: 'UP',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
+                        //   { criminalId: '4', criminalName: 'Montana', threatLevel: '2', location: 'Kerela',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
+                        //   { criminalId: '5', criminalName: 'Max Cady', threatLevel: '1', location: 'Goa',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' }
+                        // ]}
                         actions={[
                           {
                             icon: PersonOutlineTwoToneIcon,
