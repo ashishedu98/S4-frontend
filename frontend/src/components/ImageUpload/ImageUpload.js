@@ -24,6 +24,7 @@ import PersonOutlineTwoToneIcon from '@material-ui/icons/PersonOutlineTwoTone';
 import {Credentials} from '../../credentials.js'
 import axios from 'axios'
 
+
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -73,7 +74,7 @@ handleSubmit=()=>{
     "location":location,
     "image":url
   }
-    axios.post(`http://4d55a4f4d964.ngrok.io/liveRecognition`,request)
+    axios.post(`${Credentials.ENDPOINT}/liveRecognition`,request)
       .then((res)=>{
         console.log(res)
           console.log(res.data.details);
@@ -146,6 +147,12 @@ handleSubmit=()=>{
                   </div>
               </Col>
               </Row> */}
+              <Row className="title">
+                  <Col md={{ span: 7, offset: 4 }} >
+                    <h2 >Live Capture</h2>
+                  </Col>
+                </Row> 
+              
               <Row className="ImageROW" style={{marginTop:"2vh"}} >
                 <Col sm={6} >
                                   
@@ -163,7 +170,7 @@ handleSubmit=()=>{
                 <Col sm={6}>
                 <div className="uploadImage">
                   <p>
-                  <input type="file" className="btn btn-file" onChange={this.handleChange}/>
+                  <input type="file" className="btn btn-file"  style={{marginLeft:"-2vh"}} onChange={this.handleChange}/>
                   </p>
                   <p>
                   <Button variant="secondary" onClick={this.handleUpload}>Upload</Button> 
@@ -222,6 +229,12 @@ handleSubmit=()=>{
                       </div>
                 </Col>  
               </Row>
+              <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
         </Container>
       </div>
     )

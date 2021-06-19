@@ -27,6 +27,9 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import PersonOutlineTwoToneIcon from '@material-ui/icons/PersonOutlineTwoTone';
 import axios from 'axios';
+import {Credentials} from '../../credentials'
+import io from 'socket.io-client'
+
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -75,6 +78,19 @@ const[resultImg,setResultImg]=useState('');
 const[threat,setThreat]=useState(false);
 const[time,setTime]=useState(0);
 const[namelbl,setName]=useState('');
+
+const [date, setDate] =useState(new Date());
+    
+function tick() {
+    setDate(new Date());
+   }
+
+var timerID = setInterval( () => tick(), 1000 );
+   
+ function cleanup() {
+    clearInterval(timerID);
+  };
+
 
 // const actionsFormatter=()=>{
 //   return ( 
@@ -157,14 +173,17 @@ const toggleTrueFalse=()=>{
 
 
 useEffect(()=>{
-const getData=()=>{
-  axios.get('http://4d55a4f4d964.ngrok.io/hostpage')
-  .then((response) => {
+  const getData=()=>{
+   axios.get(`${Credentials.ENDPOINT}/hostpage`)
+   .then((response) => {
     setData(response.data.details)
     setName(response.data.details)
     console.log(response.data.details)
     setResultImg(response.data.lastpic)
-    })}
+    setThreat(response.data.threat)
+
+    })
+  }
   getData()
   const interval=setInterval(()=>{getData()},5000);
    console.log("running....")
@@ -172,7 +191,19 @@ const getData=()=>{
     
 
     //console.log(this.state.data)
-   },[])
+  //  
+  // const socket = io.connect(`${Credentials.SOCKETEND}`)
+  // //socket.emit('Recognised', 'my data from front end')
+  // socket.on('newData',(response)=>{
+  //     console.log(response)
+  //     setData(response.details)
+  //    setName(response.details)
+  //    setThreat(response.threat)
+  //    console.log(response.details)
+  //    setResultImg(response.lastpic)
+  // })
+
+},[])
   
 
 
@@ -181,24 +212,71 @@ const ModalContent=()=>{
   return(
     <Modal show={show} onHide={handleClose}>
     <Modal.Header closeButton>
-      <Modal.Title><h1>Criminal Details</h1></Modal.Title>
+      <Modal.Title><h1>Criminal Profile</h1></Modal.Title>
     </Modal.Header>
     <Modal.Body>
-      
+    
       <ul>
-        <ol>
-        <Figure.Image
-            width={380}
-            height={480}
-            alt="profile pics"
-            src={modalInfo.profile_pic}
-         />
-        </ol> 
-        <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Criminal ID:{modalInfo.sid}</ol>
+          <ol>
+              <Row>
+              <Col xs={12} md={12}>
+                    <Figure.Image
+                    width={480}
+                    height={580}
+                    alt="profile pics"
+                    src={modalInfo.profile_pic}/>
+                 </Col>
+              </Row>
+          </ol>
+        <ol style={{marginTop:"4vh"}}>
+                          <Form>
+                            <Form.Group as={Row} className="mb-2" >
+                                <Form.Label column sm={3}>
+                                Criminal Name
+                                </Form.Label>
+                                <Col sm={6}>
+                                <Form.Control type="text" placeholder="Criminal Name" value={modalInfo.name} readOnly />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} className="mb-2" >
+                                <Form.Label column sm={3}>
+                                Criminal Id
+                                </Form.Label>
+                                <Col sm={6}>
+                                <Form.Control type="text" placeholder="Criminal Id" value={modalInfo.sid} readOnly/>
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} className="mb-2" >
+                                <Form.Label column sm={3}>
+                                Threat
+                                </Form.Label>
+                                <Col sm={6}>
+                                <Form.Control type="text" placeholder="Threat level" value={modalInfo.threat} readOnly />
+                                </Col>
+                            </Form.Group>
+                            <Form.Group as={Row} className="mb-2" >
+                                <Form.Label column sm={3}>
+                               Location
+                                </Form.Label>
+                                <Col sm={6}>
+                                <Form.Control type="text" placeholder="Location" value={modalInfo.location} readOnly />
+                                </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-2" >
+                                <Form.Label column sm={3}>
+                               Time
+                                </Form.Label>
+                                <Col sm={6}>
+                                <Form.Control type="text" placeholder="Time" value={modalInfo.last_found} readOnly />
+                                </Col>
+                        </Form.Group>
+                    </Form>
+              </ol>
+        {/* <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Criminal ID:{modalInfo.sid}</ol>
         <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Criminal Name:{modalInfo.name}</ol>
         <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Threat Level:{modalInfo.threat}</ol>
         <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Location:{modalInfo.location}</ol>
-        <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Time:{modalInfo.last_found}</ol>
+        <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Time:{modalInfo.last_found}</ol> */}
      
       </ul>
     </Modal.Body>
@@ -212,11 +290,16 @@ const ModalContent=()=>{
     return(
         <div style={{background:threat?"#cf2334":""}}>
             <Container  >
-                
+                <Row className="title" >
+                  <Col sm={12} >
+                    <h2 >Criminal Recognition</h2>
+                    <h6 style={{float:"left"}}>{date.toLocaleTimeString()}</h6>
+                  </Col>
+                </Row>
                 <Row className="liveWindowRow">
                     <Col sm={4} >
                         <div className="rawWindow">
-                            <img className="rawContent" src={Image} alt="sample" />
+                            <img className="rawContent" src={Credentials.IMGENDPOINT} alt="sample" />
                         </div>
                         {/* <div className="rawLabel" style={{marginTop:"3vh"}}>
                         <Form.Control type="text" value={data[0]["name"]} readOnly />  
@@ -234,13 +317,15 @@ const ModalContent=()=>{
                       <div className="tblContent" >
                                     <MaterialTable
                                       icons={tableIcons}
-                                      title="Suspect Recognition"
+                                      title=""
                                       columns={[
                                         { title: 'Criminal Id', field: 'sid' },
                                         { title: 'Criminal Name', field: 'name' },
                                         { title: 'ThreatLevel', field: 'threat'  },
                                         { title: 'Location', field: 'location' },
                                         { title: 'Time', field: 'last_found' },
+                                        { title: 'DOB', field: 'date_of_birth' },
+                                        { title: 'Cases', field: 'cases' },
                                         
                                       ]}
                                       data={data}
@@ -250,6 +335,11 @@ const ModalContent=()=>{
                                       //   { criminalId: '4', criminalName: 'Montana', threatLevel: '2', location: 'Kerela',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' },
                                       //   { criminalId: '5', criminalName: 'Max Cady', threatLevel: '1', location: 'Goa',profileLink:'https://drive.google.com/thumbnail?id=1rDSZ7jAQlH-2nK_njN3wxRqTTsmzGK_U' }
                                       // ]}
+                                      localization={{
+                                        header:{
+                                          actions:'Details'
+                                        }
+                                      }}
                                       actions={[
                                         {
                                           icon: PersonOutlineTwoToneIcon,
@@ -269,7 +359,14 @@ const ModalContent=()=>{
                                     </div>
                                 </Col>
                             </Row>
+                         
                             {show ?<ModalContent/>:null}  
+                            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
                           
             </Container>
            

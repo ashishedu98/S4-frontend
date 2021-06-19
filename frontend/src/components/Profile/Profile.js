@@ -8,6 +8,7 @@ import Image from '../../assets/images/criminaltest.jpg'
 import { MDBBadge, MDBContainer } from "mdbreact";
 import axios from 'axios';
 import { useEffect, useState } from 'react'
+import {Credentials} from '../../credentials';
 
 
 
@@ -20,8 +21,8 @@ const Profile = () => {
 
 
    const onGet=()=>{
-    console.log("http://4d55a4f4d964.ngrok.io/getSuspectinfo/?sid="+record);
-    axios.get("http://4d55a4f4d964.ngrok.io/getSuspectinfo/?sid="+record)
+    //console.log("https://4d55a4f4d964.ngrok.io/getSuspectinfo/?sid="+record);
+    axios.get(`${Credentials.ENDPOINT}/getSuspectinfo/?sid=${record}`)
     .then(function (response) {
       console.log(response.data);
       setData(response.data);
@@ -60,8 +61,13 @@ const Profile = () => {
     return (
         <div >
             <Container >
+                 <Row className="title"  >
+                  <Col md={{ span: 5, offset: 4 }} >
+                    <h2 >Criminal Profile</h2>
+                  </Col>
+                </Row> 
             <Row className="search" style={{padding:"2vh"}}>
-                    <Col md={{ span: 5, offset: 2 }}>
+                    <Col md={{ span: 5, offset: 0 }}>
                         <div className="searchWindow">
                     <input className="form-control" type="text" onChange={handleChange}  placeholder="Search" aria-label="Search" />
                         </div>
@@ -110,6 +116,22 @@ const Profile = () => {
                                 <Form.Control type="text" placeholder="Location" value={data.location} readOnly />
                                 </Col>
                         </Form.Group>
+                        <Form.Group as={Row} className="mb-3" >
+                                <Form.Label column sm={2}>
+                               DOB
+                                </Form.Label>
+                                <Col sm={10}>
+                                <Form.Control type="text" placeholder="Date of birth" value={data.date_of_birth} readOnly />
+                                </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-3" >
+                                <Form.Label column sm={2}>
+                               Cases
+                                </Form.Label>
+                                <Col sm={10}>
+                                <Form.Control type="text" placeholder="No of Cases" value={data.cases} readOnly />
+                                </Col>
+                        </Form.Group>
                         </Form>
                         </div>
                     </Col>
@@ -141,7 +163,7 @@ const Profile = () => {
         
                 <Col sm={6}>
                 <div className="criminalContent" style={{marginTop:"10vh"}}>
-                    <img className="proContent" src={data.lastpic||"https://via.placeholder.com/300"} width="300" height="300" style={{objectFit:"fill",marginLeft:"10vh",border:"solid 2px"}} alt="sample" /> 
+                    <img className="proContent" src={data.image||"https://via.placeholder.com/300"} width="300" height="300" style={{objectFit:"fill",marginLeft:"10vh",border:"solid 2px"}} alt="sample" /> 
                 </div>    
                 </Col>
             </Row>
@@ -168,6 +190,12 @@ const Profile = () => {
 
                 </Col>
             </Row>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
         </Container>
     </div>
  );

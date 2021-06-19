@@ -4,6 +4,15 @@
         padding: inherit;
         .row{
             //margin-top: 3vh;
+            &.title{
+                .col-sm-12{
+                    h2{
+                        text-align: center;
+                    }
+
+                }
+            }
+
             
             &.liveWindowRow{
                 margin-top:0vh;

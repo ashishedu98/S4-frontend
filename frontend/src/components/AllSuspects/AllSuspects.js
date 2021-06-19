@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Container,Row,Col,Button,getTrProps,Modal,Figure,Form} from 'react-bootstrap'
 import { useEffect, useState } from 'react'
-// import './Records.scss'
+ import './AllSuspects.scss'
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { MDBDataTable } from 'mdbreact';
@@ -56,7 +56,7 @@ const tableIcons = {
     
 
     useEffect(()=>{
-      axios.get(`${Credentials.ENDPOINT}/all_recognitions`)
+      axios.get(`${Credentials.ENDPOINT}/all_suspects`)
       .then((response) => {
         setData(response.data)
         console.log(this.state.data)
@@ -88,17 +88,16 @@ const tableIcons = {
         <Modal.Body>
           
           <ul>
-            <ol>
-              <Row>
+          <Row>
               <Col xs={12} md={12}>
                     <Figure.Image
                     width={480}
                     height={580}
                     alt="profile pics"
-                    src={modalInfo.detect_pic}/>
+                    src={modalInfo.image}/>
                  </Col>
               </Row>
-            </ol>
+            
               <ol style={{marginTop:"4vh"}}>
                           <Form>
                             <Form.Group as={Row} className="mb-2" >
@@ -143,6 +142,14 @@ const tableIcons = {
                         </Form.Group>
                     </Form>
               </ol>
+
+
+            {/* <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Criminal ID:{modalInfo.sid}</ol>
+            <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Criminal Name:{modalInfo.names}</ol>
+            <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Threat Level:{modalInfo.threats}</ol>
+            <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Location:{modalInfo.detect_location}</ol>
+            <ol style={{fontWeight:"bold"},{fontSize:"20px"}}>Time:{modalInfo.detect_time}</ol> */}
+         
           </ul>
         </Modal.Body>
         <Modal.Footer>
@@ -158,14 +165,9 @@ const tableIcons = {
         return(
           <div style={{height:"100%",width:"100%"}}>
             <Container className="records" fluid>
-            {/* <Row className="title"  >
-                  <Col sm={12} >
-                    <h2 style={{textAlign:"centre"}}>Records</h2>
-                  </Col>
-                </Row> */}
-                 <Row className="title">
+            <Row className="title">
                   <Col md={{ span: 4, offset: 4 }} >
-                    <h2 style={{padding:"4vh"}}  >Criminal Records</h2>
+                    <h2 style={{padding:"4vh"}} >Criminal Suspects</h2>
                   </Col>
                 </Row> 
               <Row>
@@ -177,9 +179,8 @@ const tableIcons = {
                         columns={[
                           { title: 'Criminal Id', field: 'sid' },
                            { title: 'Criminal Name', field: 'names' },
-                           { title: 'ThreatLevel', field: 'threats'  },
-                          { title: 'Location', field: 'detect_location'},
-                          {title:'Time',field:'detect_time'}
+                           { title: 'ThreatLevel', field: 'threats'  }
+                          
                           
                           
                         ]}
@@ -216,10 +217,14 @@ const tableIcons = {
                   </Col>
               </Row>
               {show ?<ModalContent/>:null}
-              
+              <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
             </Container>
         </div>
-
         
         )
     }

@@ -1,3 +1,5 @@
 export const Credentials={
-    "ENDPOINT":"http://4d55a4f4d964.ngrok.io/"
+    "ENDPOINT":"http://ef6371135fa1.ngrok.io",   //Django server
+    "IMGENDPOINT":"http://568411883135.ngrok.io/video_feed",    //Flask server Raspi
+    "SOCKETEND":"http://e18b84805020.ngrok.io"      //node server
 }

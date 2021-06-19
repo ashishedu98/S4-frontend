@@ -9,12 +9,13 @@ const NavigationBar =()=>{
             <Navbar.Brand href="#home">Security Surveillence</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto">
-                <Nav.Link><Link to="/home">Home </Link></Nav.Link>
-                <Nav.Link><Link to="/Recognition">Recognition</Link></Nav.Link>
-                <Nav.Link><Link to="/Records">Records</Link></Nav.Link>
-                <Nav.Link><Link to="/Profile">Profile</Link></Nav.Link>
-                <Nav.Link><Link to="/ImageUpload">Capture</Link></Nav.Link>
+                <Nav className="ml-auto" style={{justifyContent:"space-around"}}>
+                <Nav.Link><Link style={{color:"white"}}  to="/Home">Home </Link></Nav.Link>
+                <Nav.Link><Link style={{color:"white"}} to="/Recognition">Recognition</Link></Nav.Link>
+                <Nav.Link><Link style={{color:"white"}} to="/Records">Records</Link></Nav.Link>
+                <Nav.Link><Link style={{color:"white"}} to="/AllSuspects">Suspects</Link></Nav.Link>
+                <Nav.Link><Link style={{color:"white"}} to="/Profile">Profile</Link></Nav.Link>
+                <Nav.Link><Link style={{color:"white"}} to="/ImageUpload">Capture</Link></Nav.Link>
                 </Nav>
             </Navbar.Collapse>
            

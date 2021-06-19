@@ -6,6 +6,7 @@ import RecognitionPage from './components/Recognition/Recognition.js'
 import RecordsPage from './components/Records/Records.js'
 import ProfilePage from './components/Profile/Profile.js'
 import ImageUpload from './components/ImageUpload/ImageUpload.js'
+import SuspectPage from './components/AllSuspects/AllSuspects.js'
 
 
 function App() {
@@ -13,9 +14,10 @@ function App() {
     <div className="App" >
       <BrowserRouter>
         <NavigationBar/>
-        <Route path="/home" component={HomePage} exact />
+        <Route path="/Home" component={HomePage} exact />
         <Route path="/Recognition" component={RecognitionPage} exact />
         <Route path="/Records" component={RecordsPage} exact />
+        <Route path="/AllSuspects" component={SuspectPage} exact />
         <Route path="/Profile" component={ProfilePage} exact />
         <Route path="/ImageUpload" component={ImageUpload} exact />
         </BrowserRouter>
